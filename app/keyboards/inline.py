@@ -17,3 +17,11 @@ def get_start_keyboard():
     ]
     keyboard = InlineKeyboardBuilder(markup=buttons)
     return keyboard.as_markup()
+
+def read_keyboard(slug):
+    buttons = [
+        [InlineKeyboardButton(text="📖 Читать", callback_data=slug)],
+        [InlineKeyboardButton(text="❌ Закрыть", callback_data="close")],
+    ]
+    keyboard = InlineKeyboardBuilder(markup=buttons)
+    return keyboard.as_markup()

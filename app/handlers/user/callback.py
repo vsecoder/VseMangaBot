@@ -8,10 +8,14 @@ router = Router()
 
 @router.callback_query()
 async def continue_use(c: CallbackQuery, bot: Bot):
-    await User.set_status(c.from_user.id, "reader")
-    await bot.send_message(
-        c.from_user.id,
-        "📚 Клавиатура активирована!",
-        reply_markup=await main_menu(),
-    )
-    await c.message.delete()
+    if c.data == "continue":
+        await User.set_status(c.from_user.id, "reader")
+        await bot.send_message(
+            c.from_user.id,
+            "📚 Клавиатура активирована!",
+            reply_markup=await main_menu(),
+        )
+        await c.message.delete()
+
+    elif c.data == "close":
+        await c.message.delete()

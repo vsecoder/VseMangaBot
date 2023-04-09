@@ -4,11 +4,13 @@ import git
 
 import coloredlogs
 from aiogram import Bot, Dispatcher
+from aiogram_dialog import DialogRegistry
 from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.client.telegram import TelegramAPIServer
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from app import db, version
+from app.dialogs import register_dialogs
 from app.arguments import parse_arguments
 from app.config import Config, parse_config
 from app.db import close_orm, init_orm
@@ -20,10 +22,12 @@ from datetime import datetime
 
 
 async def on_startup(
-    dispatcher: Dispatcher, bot: Bot, config: Config
+    dispatcher: Dispatcher, bot: Bot, config: Config, registry: DialogRegistry
 ):
 
     register_middlewares(dp=dispatcher, config=config)
+
+    register_dialogs(registry)
 
     dispatcher.include_router(get_handlers_router())
 
@@ -92,15 +96,16 @@ async def main():
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
 
+    registry = DialogRegistry(dp)
+
     repo = git.Repo()
-    print(repo.heads)
     build = repo.heads[0].commit.hexsha if repo.heads else "Not found"
     diff = repo.git.log([f"HEAD..origin/{version.branch}", "--oneline"])
     upd = "Update required" if diff else "Up-to-date"
 
     start_time = datetime.now()
 
-    context_kwargs = {"config": config, "build": build, "upd": upd, "start_time": start_time}
+    context_kwargs = {"config": config, "build": build, "upd": upd, "start_time": start_time, "registry": registry}
 
     await dp.start_polling(bot, **context_kwargs)
 
