@@ -1,0 +1,12 @@
+[bot]
+# @BotFather token
+token = ""
+
+[database]
+models = ["app.db.functions", "aerich.models"]
+
+[settings]
+# telegram ID
+owner_id = 123
+throttling_rate = 0.5
+drop_pending_updates = false
