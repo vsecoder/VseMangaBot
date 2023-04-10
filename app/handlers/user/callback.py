@@ -19,3 +19,6 @@ async def continue_use(c: CallbackQuery, bot: Bot):
 
     elif c.data == "close":
         await c.message.delete()
+
+    elif c.data == "pass":
+        return
