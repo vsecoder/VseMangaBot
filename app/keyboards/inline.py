@@ -31,18 +31,18 @@ def read_keyboard(slug):
 def manga_keyboard(data):
     buttons = [
         [
-            InlineKeyboardButton(text="Страницы:", callback_data="pass"),
+            InlineKeyboardButton(text="Выбор страницы", callback_data=f"pages/{data['id']}/{data['chapter']}/{data['page']}"),
         ],
         [
             InlineKeyboardButton(text="⬅️", callback_data=f"prev/{data['id']}/{data['chapter']}/{data['page']}"),
             InlineKeyboardButton(text="➡️", callback_data=f"next/{data['id']}/{data['chapter']}/{data['page']}")
         ],
         [
-            InlineKeyboardButton(text="Главы:", callback_data=f"pass"),
+            InlineKeyboardButton(text="Выбор главы", callback_data=f"chaptes/{data['id']}/{data['chapter']}/{data['page']}"),
         ],
         [
-            InlineKeyboardButton(text="⬅️", callback_data=f"next_chapter/{data['id']}/{data['chapter']}/{data['page']}"),
-            InlineKeyboardButton(text="➡️", callback_data=f"prev_chapter/{data['id']}/{data['chapter']}/{data['page']}")
+            InlineKeyboardButton(text="⬅️", callback_data=f"prev_chapter/{data['id']}/{data['chapter']}/{data['page']}"),
+            InlineKeyboardButton(text="➡️", callback_data=f"next_chapter/{data['id']}/{data['chapter']}/{data['page']}")
         ]
     ]
     keyboard = InlineKeyboardBuilder(markup=buttons)
@@ -65,9 +65,15 @@ def charaptes_keyboard(slug, chapters):
 def search_results_keyboard(data):
     buttons = [
         [
-            InlineKeyboardButton(text=i['document']['title_ru'][:60], callback_data=f"r/{i['document']['slug']}")
+            InlineKeyboardButton(text=i['document']['title_ru'][:60], callback_data=f"i/{i['document']['slug']}")
         ] for i in data if not len(i['document']['slug']) > 61
     ]
+
+    buttons.append(
+        [
+            InlineKeyboardButton(text="❌ Закрыть", callback_data="close")
+        ]
+    )
 
     not_found = [
         [
