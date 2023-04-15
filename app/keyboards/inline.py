@@ -5,7 +5,6 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 def get_author_keyboard():
     buttons = [
         [InlineKeyboardButton(text="@vsecoder", url="https://t.me/vsecoder")],
-        [InlineKeyboardButton(text="@sleroq", url="https://t.me/sleroq")],
     ]
     keyboard = InlineKeyboardBuilder(markup=buttons)
     return keyboard.as_markup()
@@ -31,17 +30,13 @@ def read_keyboard(slug):
 def manga_keyboard(data):
     buttons = [
         [
-            InlineKeyboardButton(text="Выбор страницы", callback_data=f"pages/{data['id']}/{data['chapter']}/{data['page']}"),
-        ],
-        [
             InlineKeyboardButton(text="⬅️", callback_data=f"prev/{data['id']}/{data['chapter']}/{data['page']}"),
+            InlineKeyboardButton(text="Листы", callback_data=f"pages/{data['id']}/{data['chapter']}/{data['page']}"),
             InlineKeyboardButton(text="➡️", callback_data=f"next/{data['id']}/{data['chapter']}/{data['page']}")
         ],
         [
-            InlineKeyboardButton(text="Выбор главы", callback_data=f"chaptes/{data['id']}/{data['chapter']}/{data['page']}"),
-        ],
-        [
             InlineKeyboardButton(text="⬅️", callback_data=f"prev_chapter/{data['id']}/{data['chapter']}/{data['page']}"),
+            InlineKeyboardButton(text="Главы", callback_data=f"chaptes/{data['id']}/{data['chapter']}/{data['page']}"),
             InlineKeyboardButton(text="➡️", callback_data=f"next_chapter/{data['id']}/{data['chapter']}/{data['page']}")
         ]
     ]
